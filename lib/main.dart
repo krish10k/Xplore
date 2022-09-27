@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:demo_app/widgets/myCard.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,35 +11,43 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Xplore',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Demo App'),
+          title: const Text('Xplore'),
         ),
-        body: ListView(children: [
-          // Center(
-          //   child: Text("Cities in maharastra"),
-          // ),
-          new CityCard(
-              "Pune",
-              "Maharastra- Pune is considered to be the IT and educational capital of Maharashtra state. ... It has been ranked 'the most liveable city in India' several times.",
-              "https://media.istockphoto.com/photos/the-mumbai-pune-expressway-picture-id1240837978?k=20&m=1240837978&s=612x612&w=0&h=0bkvZ9XenP_GQnVkjkHhnCP8mUTRZ-m6G-_a885Aqxg=",
-              rating: 70),
+        body: SafeArea(
+          child: ListView(children: [
+            // myCard(),
+            // Center(
+            //   child: Text("Cities in maharastra"),
+            // ),
+            CityCard(
+                "Pune",
+                "Maharastra- Pune is considered to be the IT hub of state. It's' ranked 'the most liveable city",
+                "https://media.istockphoto.com/photos/the-mumbai-pune-expressway-picture-id1240837978?k=20&m=1240837978&s=612x612&w=0&h=0bkvZ9XenP_GQnVkjkHhnCP8mUTRZ-m6G-_a885Aqxg=",
+                rating: 70),
 
-// static assects
-          Image.asset(
-            'images/mumbai.jpeg',
-            width: 600,
-            height: 240,
-            fit: BoxFit.fitHeight,
-          ),
-          titleSection,
+            CityCard(
+                "Mumbai",
+                "Mumbai is the centre of the Mumbai Metropolitan Region, the sixth most populous",
+                "https://cdn.staticmb.com/magicservicestatic/images/pincode/city/web/Mumbai.png",
+                rating: 99),
+            // static assects
+            Image.asset(
+              'images/mumbai.jpeg',
+              width: 600,
+              height: 240,
+              fit: BoxFit.fitHeight,
+            ),
+            // titleSection,
 
-          new CityCard(
-              "Pune",
-              "Pune is considered to be the cultural and educational capital of Maharashtra state.",
-              "https://upload.wikimedia.org/wikipedia/commons/1/14/Shaniwaarwada_Pune.jpg"),
-        ]),
+            CityCard(
+                "Pune",
+                "Pune is considered to be the cultural and educational capital of Maharashtra state.",
+                "https://upload.wikimedia.org/wikipedia/commons/1/14/Shaniwaarwada_Pune.jpg"),
+          ]),
+        ),
       ),
     );
   }
@@ -49,14 +58,14 @@ class CircleImage extends StatelessWidget {
   CircleImage(this.renderUrl);
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      width: 100.0,
-      height: 100.0,
-      decoration: new BoxDecoration(
+    return Container(
+      width: 80.0,
+      height: 120.0,
+      decoration: BoxDecoration(
         shape: BoxShape.circle,
-        image: new DecorationImage(
+        image: DecorationImage(
           fit: BoxFit.cover,
-          image: new NetworkImage(renderUrl ?? ''),
+          image: NetworkImage(renderUrl),
         ),
       ),
     );
@@ -69,11 +78,11 @@ class CityCard extends StatelessWidget {
   CityCard(this.title, this.details, this.url, {this.rating});
   @override
   Widget build(BuildContext context) {
-    return new Container(
+    return Container(
       padding: const EdgeInsets.all(32),
       child: Row(
         children: [
-          new CircleImage(url ??
+          CircleImage(url ??
               'https://cdn.staticmb.com/magicservicestatic/images/pincode/city/web/Mumbai.png'),
           Expanded(
             child: Column(
@@ -81,18 +90,18 @@ class CityCard extends StatelessWidget {
               children: [
                 Container(
                   padding: const EdgeInsets.only(bottom: 8, left: 5),
-                  child: new Text(
-                    '${title}',
-                    style: TextStyle(
+                  child: Text(
+                    title,
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.only(left: 5, right: 5),
-                  child: new Text(
-                    '${details}',
-                    style: TextStyle(
+                  child: Text(
+                    details,
+                    style: const TextStyle(
                       color: Color.fromARGB(255, 66, 62, 62),
                     ),
                   ),
@@ -100,11 +109,40 @@ class CityCard extends StatelessWidget {
               ],
             ),
           ),
-          const Icon(
-            Icons.star,
-            color: Color.fromARGB(255, 138, 90, 235),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  const Icon(
+                    Icons.star,
+                    color: Color.fromARGB(255, 138, 90, 235),
+                  ),
+                  Text('${rating ?? 50}'),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () => {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => myCard(),
+                        ),
+                      ),
+                    },
+                    child: Icon(
+                      Icons.arrow_forward,
+                      size: 25.0,
+                    ),
+                  ),
+                ],
+              )
+            ],
           ),
-          new Text('${rating ?? 50}'),
         ],
       ),
     );
@@ -114,50 +152,10 @@ class CityCard extends StatelessWidget {
 // https://cdn.staticmb.com/magicservicestatic/images/pincode/city/web/Mumbai.png
 
 Widget img = Container(
-  decoration: BoxDecoration(
+  decoration: const BoxDecoration(
     image: DecorationImage(
       image: NetworkImage('https://picsum.photos/250?image=9'),
       fit: BoxFit.fill,
     ),
-  ),
-);
-
-Widget titleSection = Container(
-  padding: const EdgeInsets.all(32),
-  child: Row(
-    children: [
-      CircleImage(
-          'https://cdn.staticmb.com/magicservicestatic/images/pincode/city/web/Mumbai.png'),
-      Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.only(bottom: 8, left: 5),
-              child: const Text(
-                'Mumbai',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(left: 5, right: 5),
-              child: const Text(
-                'Maharastra, India Mumbai is the centre of the Mumbai Metropolitan Region, the sixth most populous metropolitan area in the world with a population of over 2.3 crore',
-                style: TextStyle(
-                  color: Color.fromARGB(255, 66, 62, 62),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      Icon(
-        Icons.star,
-        color: Color.fromARGB(255, 138, 90, 235),
-      ),
-      const Text('41'),
-    ],
   ),
 );
