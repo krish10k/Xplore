@@ -7,7 +7,7 @@ class myCard extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Details page'),
       ),
-      body: Column(
+      body: ListView(
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
